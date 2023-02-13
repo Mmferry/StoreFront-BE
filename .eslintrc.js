@@ -13,7 +13,12 @@ module.exports = {
   rules: {
     semi: ['error', 'never'],
     quotes: ['error', 'single'],
-    'prettier/prettier': 2, // Means error
+    'prettier/prettier': [
+      'error',
+      {
+        endOfLine: 'auto'
+      }
+    ], // Means error
     'no-console': 0, // Means warning
     'no-var': 'error',
     'prefer-const': 'error',
