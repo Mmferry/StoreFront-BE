@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction, Application } from 'express'
+import { Response, Request, NextFunction, Router } from 'express'
 import jwt from 'jsonwebtoken'
 import config from '../config'
 import validateToken from '../middleware/auth.middleware'
@@ -16,7 +16,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       message: 'User created successfully'
     })
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
@@ -30,7 +30,7 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
       message: 'Users retrieved successfully'
     })
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
@@ -44,7 +44,7 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
       message: 'User retrieved successfully'
     })
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
@@ -53,8 +53,6 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
     const { email, password } = req.body
 
     const user = await uStore.authenticate(email, password)
-    const token = jwt.sign({ user }, config.tokenSecret as string)
-    console.log(token)
 
     if (!user) {
       return res.status(401).json({
@@ -62,6 +60,8 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
         message: 'The password and email do not match please try again'
       })
     }
+
+    const token = jwt.sign({ user }, config.tokenSecret as string)
 
     if (user) {
       return res.status(200).json({
@@ -71,15 +71,14 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
       })
     }
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
-const usersRoutes = (app: Application) => {
-  app.post('/', create)
-  app.get('/', validateToken, index)
-  app.get('/:id', validateToken, show)
-  app.post('/login', authenticate)
-}
+const usersRoutes = Router()
+
+usersRoutes.route('/').get(validateToken, index).post(create)
+usersRoutes.get('/:id', validateToken, show)
+usersRoutes.post('/login', authenticate)
 
 export default usersRoutes
