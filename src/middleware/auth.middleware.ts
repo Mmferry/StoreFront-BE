@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
 import config from '../config'
+import getUserId from '../utils/auth.utils'
 
 const validateToken = (req: Request, res: Response, next: NextFunction) => {
   try {

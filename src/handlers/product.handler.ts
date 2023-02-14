@@ -13,7 +13,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       message: 'Product added successfully'
     })
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
@@ -27,7 +27,7 @@ const index = async (_req: Request, res: Response, next: NextFunction) => {
       message: 'products retrieved successfully'
     })
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
@@ -41,7 +41,7 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
       message: 'Product retrieved successfully'
     })
   } catch (err) {
-    next(err)
+    res.status(400).json(err)
   }
 }
 
