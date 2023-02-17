@@ -34,7 +34,7 @@ class ProductModelStore {
       connection.release()
       return result.rows
     } catch (error: unknown) {
-      throw new Error(`Could not products : ${(error as Error).message}`)
+      throw new Error(`Could not load products : ${(error as Error).message}`)
     }
   }
 
@@ -42,7 +42,7 @@ class ProductModelStore {
     try {
       const connection = await db.connect()
       // eslint-disable-next-line quotes
-      const sql = `SELECT * FROM users WHERE id = ($1)`
+      const sql = `SELECT * FROM products WHERE id = ($1)`
       const result = await connection.query(sql, [id])
 
       connection.release()

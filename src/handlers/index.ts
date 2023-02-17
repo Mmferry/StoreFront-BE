@@ -1,11 +1,13 @@
 import { Router } from 'express'
 import validateToken from '../middleware/auth.middleware'
+import orderRoutes from './order.handler'
 import productRoutes from './product.handler'
 import usersRoutes from './user.handler'
 
 const routes = Router()
 
 routes.use('/users', usersRoutes)
-routes.use('/store', validateToken, productRoutes)
+routes.use('/product', validateToken, productRoutes)
+routes.use('/orders', validateToken, orderRoutes)
 
 export default routes

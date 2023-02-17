@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction, Application } from 'express'
+import { Response, Request, NextFunction, Application, Router } from 'express'
 import ProductModelStore from '../models/product.model'
 
 const pStore = new ProductModelStore()
@@ -45,10 +45,8 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const productRoutes = (app: Application) => {
-  app.post('/', create)
-  app.get('/', index)
-  app.get('/:id', show)
-}
+const productRoutes = Router()
+productRoutes.route('/').post(create).get(index)
+productRoutes.route('/:id').get(show)
 
 export default productRoutes

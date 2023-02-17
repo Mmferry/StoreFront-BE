@@ -1,4 +1,4 @@
-import { Response, Request, NextFunction, Application } from 'express'
+import { Response, Request, NextFunction, Application, Router } from 'express'
 import OrderModelStore from '../models/orders.model'
 import getUserId from '../utils/auth.utils'
 
@@ -22,3 +22,8 @@ const create = async (_req: Request, res: Response, next: NextFunction) => {
     res.status(400).json(err)
   }
 }
+
+const orderRoutes = Router()
+orderRoutes.route('/').post(create)
+
+export default orderRoutes
