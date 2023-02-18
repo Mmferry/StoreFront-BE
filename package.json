@@ -3,11 +3,16 @@
   "version": "0.1.0",
   "description": "online store to make their great product ideas available for purchase",
   "main": "server.js",
+  "exports": {
+    ".": "./lib/jasmine.js",
+    "./lib/command": "./lib/command.js"
+  },
   "scripts": {
     "start": "npx tsc && node ./dist/server.js",
     "dev": "nodemon ./src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "jasmine-ts",
+    "test": "SET NODE_ENV=test && db-migrate --env test up && npx tsc && jasmine && db-migrate --env test down",
+    "build": "npx tsc",
     "tsc": "tsc",
     "format": "prettier --write src/**/*.ts",
     "lint:fix": "eslint --fix",
@@ -49,7 +54,7 @@
     "jasmine-ts": "^0.4.0",
     "nodemon": "^2.0.20",
     "prettier": "2.8.2",
-    "ts-node": "^10.9.1",
+    "ts-node": "8.10.2",
     "tsc-watch": "^6.0.0"
   }
 }

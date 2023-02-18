@@ -48,6 +48,34 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
+export const update = async (req: Request, res: Response) => {
+  try {
+    const user = await uStore.update(req.body)
+
+    res.json({
+      status: 'success',
+      data: user,
+      message: 'User updated successfully'
+    })
+  } catch (err) {
+    res.status(400).json(err)
+  }
+}
+
+export const deleteHandler = async (req: Request, res: Response) => {
+  try {
+    const user = await uStore.delete(req.params.id as unknown as string)
+
+    res.json({
+      status: 'success',
+      data: user,
+      message: 'User deleted successfully'
+    })
+  } catch (err) {
+    res.status(400).json(err)
+  }
+}
+
 const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { email, password } = req.body

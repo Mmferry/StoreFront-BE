@@ -1,5 +1,5 @@
 import db from '../database'
-import { Order } from '../models/orders.model'
+import { Order } from '../interfaces/order.interface'
 
 class DashboardQueries {
   async getUserOrders(userId: string): Promise<Order> {

@@ -1,11 +1,5 @@
 import db from '../database'
-
-type Product = {
-  id?: number
-  name: string
-  price: number
-  category?: string
-}
+import { Product } from '../interfaces/product.interface'
 
 class ProductModelStore {
   async create(product: Product): Promise<Product> {

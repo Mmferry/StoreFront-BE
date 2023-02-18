@@ -1,18 +1,6 @@
 /* eslint-disable quotes */
 import db from '../database'
-
-export type Order = {
-  id?: number
-  user_id: number
-  status: string
-}
-
-export type ProductToOrder = {
-  id?: number
-  order_id: number
-  product_id: number
-  quantity: number
-}
+import { Order, ProductToOrder } from '../interfaces/order.interface'
 
 class OrderModelStore {
   async index(): Promise<Order[]> {

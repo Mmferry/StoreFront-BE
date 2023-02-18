@@ -1,16 +1,8 @@
-/* eslint-disable semi */
-/* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
 import bcrypt from 'bcrypt'
 import db from '../database'
 import config from '../config'
-
-type User = {
-  id?: number
-  email: string
-  first_name: string
-  last_name: string
-  password: string
-}
+import { User } from '../interfaces/user.interface'
 
 const hashPassword = (password: string) => {
   const salt = parseInt(config.salt as string, 10)
@@ -36,7 +28,7 @@ class UserModelStore {
 
       return result.rows[0]
     } catch (error: unknown) {
-      throw new Error(`Unable to create with this (${user.email} : ${(error as Error).message})`)
+      throw new Error(`Unable to create user error: (${user.email} : ${(error as Error).message})`)
     }
   }
 
@@ -56,7 +48,6 @@ class UserModelStore {
   async show(id: string): Promise<User> {
     try {
       const conn = await db.connect()
-      // eslint-disable-next-line quotes
       const sql = `SELECT id, email, first_name, last_name FROM users WHERE id = ($1)`
       const result = await conn.query(sql, [id])
 
@@ -64,6 +55,41 @@ class UserModelStore {
       return result.rows[0]
     } catch (error: unknown) {
       throw new Error(`Could not get user error : ${(error as Error).message}`)
+    }
+  }
+
+  async update(u: User): Promise<User> {
+    try {
+      const conn = await db.connect()
+      const sql = `UPDATE users
+      SET email= $1, first_name = $2, last_name = $3, password = $4
+      WHERE id = ($6) 
+      RETURNING id, email, first_name, last_name`
+      const result = await conn.query(sql, [
+        u.email,
+        u.first_name,
+        u.last_name,
+        hashPassword(u.password),
+        u.id
+      ])
+
+      conn.release()
+      return result.rows[0]
+    } catch (error: unknown) {
+      throw new Error(`Could not update user error : ${(error as Error).message}`)
+    }
+  }
+
+  async delete(id: string): Promise<User> {
+    try {
+      const conn = await db.connect()
+      const sql = `DELETE FROM users WHERE id = ($1)`
+      const result = await conn.query(sql, [id])
+
+      conn.release()
+      return result.rows[0]
+    } catch (error: unknown) {
+      throw new Error(`Unable to delete user error : ${(error as Error).message}`)
     }
   }
 
