@@ -1,9 +1,9 @@
-import { Response, Request, NextFunction, Application, Router } from 'express'
+import { Response, Request, Router } from 'express'
 import ProductModelStore from '../models/product.model'
 
 const pStore = new ProductModelStore()
 
-const create = async (req: Request, res: Response, next: NextFunction) => {
+const create = async (req: Request, res: Response) => {
   try {
     const product = await pStore.create(req.body)
 
@@ -17,7 +17,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const index = async (_req: Request, res: Response, next: NextFunction) => {
+const index = async (_req: Request, res: Response) => {
   try {
     const products = await pStore.index()
 
@@ -31,7 +31,7 @@ const index = async (_req: Request, res: Response, next: NextFunction) => {
   }
 }
 
-const show = async (req: Request, res: Response, next: NextFunction) => {
+const show = async (req: Request, res: Response) => {
   try {
     const product = await pStore.show(req.params.id as unknown as string)
 
