@@ -20,7 +20,7 @@ class OrderModelStore {
 
   async show(id: string): Promise<Order> {
     try {
-      const sql = `SELECT * FROM orders WHERE id = $(1)`
+      const sql = `SELECT * FROM orders WHERE id = ($1)`
       const conn = await db.connect()
 
       const result = await conn.query(sql, [id])
@@ -48,7 +48,39 @@ class OrderModelStore {
     }
   }
 
-  async addProductToOrder(PTO: ProductToOrder): Promise<Order> {
+  async update(o: Order): Promise<Order> {
+    try {
+      const conn = await db.connect()
+      const sql = `UPDATE order
+      SET status = $1
+      WHERE id = ($2) 
+      RETURNING status`
+      const result = await conn.query(sql, [o.status, o.id])
+
+      conn.release()
+      return result.rows[0]
+    } catch (error: unknown) {
+      throw new Error(`Could not update order status error : ${(error as Error).message}`)
+    }
+  }
+
+  async delete(id: string): Promise<Order> {
+    try {
+      const conn = await db.connect()
+      const productSql = `DELETE FROM order_products WHERE order_id=($1)`
+      await conn.query(productSql, [id])
+
+      const orderSql = `DELETE FROM orders WHERE id = ($1)`
+      const result = await conn.query(orderSql, [id])
+
+      conn.release()
+      return result.rows[0]
+    } catch (error: unknown) {
+      throw new Error(`Unable to delete order error : ${(error as Error).message}`)
+    }
+  }
+
+  async addProductToOrder(PTO: ProductToOrder): Promise<ProductToOrder> {
     try {
       const sql =
         'INSERT INTO order_products (quantity, product_id, order_id) VALUES($1, $2, $3) RETURNING *'

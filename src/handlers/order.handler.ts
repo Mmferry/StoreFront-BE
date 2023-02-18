@@ -2,6 +2,7 @@ import { Response, Request, Router } from 'express'
 import OrderModelStore from '../models/orders.model'
 import getUserId from '../utils/auth.utils'
 import DashboardQueries from '../services/dashboard'
+import { Status } from '../interfaces/order.interface'
 
 const oStore = new OrderModelStore()
 const dashboardQueries = new DashboardQueries()
@@ -37,7 +38,7 @@ const show = async (req: Request, res: Response) => {
 const create = async (_req: Request, res: Response) => {
   try {
     const userId: string = getUserId(_req)
-    const status: string = _req.body.status
+    const status: Status = _req.body.status
 
     if (!userId || !status) {
       return res.status(400).json({

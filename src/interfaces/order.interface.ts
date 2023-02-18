@@ -1,8 +1,10 @@
 export interface Order {
   id?: number
   user_id: number
-  status: string
+  status: Status
 }
+
+export type Status = 'active' | 'completed'
 
 export interface ProductToOrder {
   id?: number
