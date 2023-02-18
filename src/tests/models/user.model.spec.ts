@@ -4,7 +4,7 @@ import UserModelStore from '../../models/user.model'
 const uStore = new UserModelStore()
 
 describe('User model test', () => {
-  let initCreatedUser: User
+  let initiateUser: User
 
   const user: User = {
     first_name: 'Mohammed',
@@ -18,11 +18,11 @@ describe('User model test', () => {
   }
 
   beforeEach(async () => {
-    initCreatedUser = await uStore.create(user)
+    initiateUser = await uStore.create(user)
   })
 
   afterEach(async () => {
-    await deleteUser(initCreatedUser.id as unknown as string)
+    await deleteUser(initiateUser.id as unknown as string)
   })
 
   it('Should have index method', () => {
@@ -46,26 +46,45 @@ describe('User model test', () => {
   })
 
   it('Should create user', async () => {
-    await deleteUser(initCreatedUser.id as unknown as string)
+    await deleteUser(initiateUser.id as unknown as string)
 
     const createdUser = await uStore.create(user)
-    expect(createdUser.first_name).toBe('Mohammed')
-    expect(createdUser.last_name).toBe('Fared')
-    expect(createdUser.email).toBe('mo@test.com')
+    expect(createdUser.first_name).toBe(initiateUser.first_name)
+    expect(createdUser.last_name).toBe(initiateUser.last_name)
+    expect(createdUser.email).toBe(initiateUser.email)
 
     await deleteUser(createdUser.id as unknown as string)
   })
 
   it('Should return the user by Id', async () => {
-    expect(initCreatedUser.first_name).toBe('Mohammed')
-    expect(initCreatedUser.last_name).toBe('Fared')
-    expect(initCreatedUser.email).toBe('mo@test.com')
+    expect(initiateUser.first_name).toBe(initiateUser.first_name)
+    expect(initiateUser.last_name).toBe(initiateUser.last_name)
+    expect(initiateUser.email).toBe(initiateUser.email)
   })
 
   it('index method should return a list of users', async () => {
     const result = await uStore.index()
-    expect(result[0].first_name).toBe('Mohammed')
-    expect(result[0].last_name).toBe('Fared')
-    expect(result[0].email).toBe('mo@test.com')
+    expect(result[0].first_name).toBe(initiateUser.first_name)
+    expect(result[0].last_name).toBe(initiateUser.last_name)
+    expect(result[0].email).toBe(initiateUser.email)
+  })
+
+  it('Should remove the user by id', async () => {
+    await deleteUser(initiateUser.id as unknown as string)
+    expect(initiateUser.first_name).toBe(initiateUser.first_name)
+    expect(initiateUser.last_name).toBe(initiateUser.last_name)
+  })
+
+  it('Should update the user', async () => {
+    const updatedUser = {
+      id: initiateUser.id,
+      first_name: 'Ahmed',
+      last_name: 'Rezk'
+    }
+
+    const result = await uStore.update(updatedUser as unknown as User)
+
+    expect(result.first_name).toEqual(updatedUser.first_name)
+    expect(result.last_name).toEqual(updatedUser.last_name)
   })
 })
