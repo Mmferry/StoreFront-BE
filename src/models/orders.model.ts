@@ -12,6 +12,7 @@ class OrderModelStore {
 
       const orders = result.rows
 
+      conn.release()
       return orders
     } catch (err) {
       throw new Error(`Could not load orders error ${(err as Error).message}`)
@@ -27,6 +28,7 @@ class OrderModelStore {
 
       const order = result.rows[0]
 
+      conn.release()
       return order
     } catch (err) {
       throw new Error(`Could not get order with id: ${id} error ${(err as Error).message}`)
@@ -42,6 +44,7 @@ class OrderModelStore {
 
       const order = result.rows[0]
 
+      conn.release()
       return order
     } catch (err) {
       throw new Error(`Unable to create order error ${(err as Error).message}`)
@@ -52,7 +55,7 @@ class OrderModelStore {
     try {
       const conn = await db.connect()
       const sql = `UPDATE order
-      SET status = $1
+      SET status = ($1)
       WHERE id = ($2) 
       RETURNING status`
       const result = await conn.query(sql, [o.status, o.id])
