@@ -25,26 +25,6 @@ describe('User model test', () => {
     await deleteUser(initiateUser.id as unknown as string)
   })
 
-  it('Should have index method', () => {
-    expect(uStore.index).toBeDefined()
-  })
-
-  it('Should have create method', () => {
-    expect(uStore.create).toBeDefined()
-  })
-
-  it('Should have show method', () => {
-    expect(uStore.show).toBeDefined()
-  })
-
-  it('Should have update method', () => {
-    expect(uStore.update).toBeDefined()
-  })
-
-  it('Should have delete method', () => {
-    expect(uStore.delete).toBeDefined()
-  })
-
   it('Should create user', async () => {
     await deleteUser(initiateUser.id as unknown as string)
 
@@ -57,13 +37,16 @@ describe('User model test', () => {
   })
 
   it('Should return the user by Id', async () => {
-    expect(initiateUser.first_name).toBe(initiateUser.first_name)
-    expect(initiateUser.last_name).toBe(initiateUser.last_name)
-    expect(initiateUser.email).toBe(initiateUser.email)
+    const result = await uStore.show(initiateUser.id as unknown as string)
+
+    expect(result.first_name).toBe(initiateUser.first_name)
+    expect(result.last_name).toBe(initiateUser.last_name)
+    expect(result.email).toBe(initiateUser.email)
   })
 
   it('index method should return a list of users', async () => {
     const result = await uStore.index()
+
     expect(result[0].first_name).toBe(initiateUser.first_name)
     expect(result[0].last_name).toBe(initiateUser.last_name)
     expect(result[0].email).toBe(initiateUser.email)
@@ -71,8 +54,9 @@ describe('User model test', () => {
 
   it('Should remove the user by id', async () => {
     await deleteUser(initiateUser.id as unknown as string)
-    expect(initiateUser.first_name).toBe(initiateUser.first_name)
-    expect(initiateUser.last_name).toBe(initiateUser.last_name)
+
+    const result = await uStore.index()
+    expect(result.length).toBe(0)
   })
 
   it('Should update the user', async () => {

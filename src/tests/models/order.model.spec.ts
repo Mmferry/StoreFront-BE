@@ -35,6 +35,10 @@ describe('Orders model test', () => {
     order = { ...order, user_id: userId }
   })
 
+  afterAll(async () => {
+    await uStore.delete(userId as unknown as string)
+  })
+
   it('Should create order', async () => {
     const result = await oStore.create(order)
 
@@ -71,7 +75,7 @@ describe('Orders model test', () => {
     await oStore.delete(result[0].id as unknown as string)
   })
 
-  xit('Should update order status', async () => {
+  it('Should update order status', async () => {
     const newOrder = await oStore.create(order)
 
     const result = await oStore.update({ status: 'completed', id: newOrder.id } as Order)
