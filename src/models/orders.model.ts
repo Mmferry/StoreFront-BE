@@ -54,7 +54,7 @@ class OrderModelStore {
   async update(o: Order): Promise<Order> {
     try {
       const conn = await db.connect()
-      const sql = `UPDATE order
+      const sql = `UPDATE orders
       SET status = ($1)
       WHERE id = ($2) 
       RETURNING status`
