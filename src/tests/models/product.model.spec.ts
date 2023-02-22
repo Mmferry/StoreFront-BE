@@ -51,8 +51,6 @@ describe('Product model test', () => {
     expect(createdProduct.name).toBe(initiateProduct.name)
     expect(createdProduct.price).toBe(initiateProduct.price)
     expect(createdProduct.category).toBe(initiateProduct.category)
-
-    await deleteProduct(createdProduct.id as unknown as string)
   })
 
   it('Should return the product by Id', async () => {
@@ -63,9 +61,9 @@ describe('Product model test', () => {
 
   it('index method should return a list of products', async () => {
     const result = await pStore.index()
-    expect(result[0].name).toBe(initiateProduct.name)
-    expect(result[0].price).toBe(initiateProduct.price)
-    expect(result[0].category).toBe(initiateProduct.category)
+    expect(result[1].name).toBe(initiateProduct.name)
+    expect(result[1].price).toBe(initiateProduct.price)
+    expect(result[1].category).toBe(initiateProduct.category)
   })
 
   it('Should remove the product by id', async () => {
