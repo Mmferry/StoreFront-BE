@@ -1,5 +1,6 @@
 import { Response, Request, NextFunction, Router } from 'express'
 import jwt from 'jsonwebtoken'
+import { createToken } from '../auth/authentication'
 import config from '../config'
 import validateToken from '../middleware/auth.middleware'
 import UserModelStore from '../models/user.model'
@@ -89,7 +90,7 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
       })
     }
 
-    const token = jwt.sign({ user }, config.tokenSecret as string)
+    const token = createToken(user)
 
     if (user) {
       return res.status(200).json({
@@ -106,7 +107,11 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
 const usersRoutes = Router()
 
 usersRoutes.route('/').get(validateToken, index).post(create)
-usersRoutes.get('/:id', validateToken, show)
+usersRoutes
+  .route('/:id')
+  .get(validateToken, show)
+  .delete(validateToken, deleteHandler)
+  .put(validateToken, update)
 usersRoutes.post('/login', authenticate)
 
 export default usersRoutes

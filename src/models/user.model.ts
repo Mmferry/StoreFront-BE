@@ -64,7 +64,7 @@ class UserModelStore {
       const sql = `UPDATE users
       SET first_name = ($1), last_name = ($2)
       WHERE id = ($3) 
-      RETURNING first_name, last_name`
+      RETURNING id, first_name, last_name, email`
       const result = await conn.query(sql, [u.first_name, u.last_name, u.id])
 
       conn.release()
