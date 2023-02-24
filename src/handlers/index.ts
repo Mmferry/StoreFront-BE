@@ -8,6 +8,6 @@ const routes = Router()
 
 routes.use('/users', usersRoutes)
 routes.use('/product', validateToken, productRoutes)
-routes.use('/orders', validateToken, orderRoutes)
+routes.use('/order', validateToken, orderRoutes)
 
 export default routes

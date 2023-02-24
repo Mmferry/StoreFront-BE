@@ -37,7 +37,7 @@ const show = async (req: Request, res: Response) => {
 
 const create = async (_req: Request, res: Response) => {
   try {
-    const userId: string = getUserId(_req)
+    const userId: string = _req.body.user_id || getUserId(_req)
     const status: Status = _req.body.status
 
     if (!userId || !status) {
@@ -55,6 +55,34 @@ const create = async (_req: Request, res: Response) => {
       status: 'success',
       data: { ...order },
       message: 'Your order has been added successfully'
+    })
+  } catch (err) {
+    res.status(400).json(err)
+  }
+}
+
+export const update = async (req: Request, res: Response) => {
+  try {
+    const order = await oStore.update(req.body)
+
+    res.json({
+      status: 'success',
+      data: order,
+      message: 'order updated successfully'
+    })
+  } catch (err) {
+    res.status(400).json(err)
+  }
+}
+
+export const deleteHandler = async (req: Request, res: Response) => {
+  try {
+    const order = await oStore.delete(req.params.id as unknown as string)
+
+    res.json({
+      status: 'success',
+      data: order,
+      message: 'order deleted successfully'
     })
   } catch (err) {
     res.status(400).json(err)
@@ -89,7 +117,7 @@ const addProductToOrder = async (req: Request, res: Response) => {
 
 const orderRoutes = Router()
 orderRoutes.route('/').post(create).get(index)
-orderRoutes.route('/:id').get(show)
+orderRoutes.route('/:id').get(show).delete(deleteHandler).put(update)
 orderRoutes.route('/add-product/:id').post(addProductToOrder)
 orderRoutes.get('/current-orders/:id', dashboardQueries.getUserOrders)
 

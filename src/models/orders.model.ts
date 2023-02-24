@@ -57,7 +57,7 @@ class OrderModelStore {
       const sql = `UPDATE orders
       SET status = ($1)
       WHERE id = ($2) 
-      RETURNING status`
+      RETURNING *`
       const result = await conn.query(sql, [o.status, o.id])
 
       conn.release()

@@ -48,13 +48,13 @@ describe('Product APIs: ', () => {
     expect(res.status).toEqual(200)
   })
 
-  it('/api/product get all users', async () => {
+  it('/api/product get all products', async () => {
     const res = await getAll()
 
     expect(res.status).toEqual(200)
   })
 
-  it('/api/product/:id update user', async () => {
+  it('/api/product/:id update product', async () => {
     const newProd = await request
       .put(`/api/product/${product.id}`)
       .send({ name: 'Dairy milk', price: 7, id: product.id })
@@ -63,7 +63,7 @@ describe('Product APIs: ', () => {
     expect(newProd.body.data.price).toEqual(7)
   })
 
-  it('/api/product/:id delete user by id', async () => {
+  it('/api/product/:id delete product by id', async () => {
     expect(await deleteProd(product.id as unknown as string)).toEqual(200)
   })
 })
