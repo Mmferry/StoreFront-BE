@@ -54,6 +54,14 @@ describe('Product APIs: ', () => {
     expect(res.status).toEqual(200)
   })
 
+  it('/api/product/:id show product', async () => {
+    const res = await (
+      await request.get(`/api/product/${product.id}`).set('Authorization', token)
+    ).body.data
+
+    expect(res.price).toEqual(10)
+  })
+
   it('/api/product/:id update product', async () => {
     const newProd = await request
       .put(`/api/product/${product.id}`)

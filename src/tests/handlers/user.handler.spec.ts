@@ -27,8 +27,14 @@ describe('User APIs: ', () => {
     return res.status
   }
 
-  it('/api/users create user', async () => {
+  const createUser = async (user: User) => {
     const res = await request.post('/api/users').send(user)
+
+    return res
+  }
+
+  it('/api/users create user', async () => {
+    const res = await createUser(user)
 
     expect(res.status).toEqual(200)
 
@@ -41,8 +47,20 @@ describe('User APIs: ', () => {
     expect(res.status).toEqual(200)
   })
 
+  it('/api/users/:id show users', async () => {
+    const newUser = await createUser(user)
+
+    const res = (
+      await request.get(`/api/users/${newUser.body.data.id}`).set('Authorization', token)
+    ).body.data
+
+    expect(res.email).toEqual('mfaired@gmail.com')
+
+    await deleteUser(res.id)
+  })
+
   it('/api/users/:id update user', async () => {
-    const uRes = await request.post('/api/users').send(user)
+    const uRes = await createUser(user)
 
     const createdUser = {
       first_name: 'Ibrahim',
@@ -61,7 +79,7 @@ describe('User APIs: ', () => {
   })
 
   it('/api/users/:id delete user by id', async () => {
-    const createdUser = await request.post('/api/users').send(user)
+    const createdUser = await createUser(user)
 
     const deletedUser = await deleteUser(createdUser.body.data.id)
 
