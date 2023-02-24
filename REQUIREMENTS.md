@@ -8,36 +8,40 @@ These are the notes from a meeting with the frontend developer that describe wha
 
 #### Products
 
-- Index
-- Show
-- Create [token required]
-- [OPTIONAL] Top 5 most popular products
-- [OPTIONAL] Products by category (args: product category)
-- [ADDED] Delete: `'product/:id  [DELETE] (token)`
-- [ADDED] Update: `'product/:id  [PUT] { name: 'product name', price: $$, id: product.id } (token)`
-
+- Index (GET `/api/product` )
+- Show (GET `/api/product/:id`)
+- Create [token required] (POST `/api/products`)
+- [ADDED] Delete [token required] `'product/ [token required]id  [DELETE] (token)`
+- [ADDED] Update [token required] (PUT `/api/product/:id`) body `{ name: 'product name', price: $$, id: product.id }`
 
 #### Users
 
-- Index [token required]
-- Show [token required]
-- Create N[token required]
-- [ADDED] Delete [token required]: `'users/:id' [DELETE] (token)`
-- [ADDED] Update [token required]: `'users/:id' [PUT] (token) {
-      first_name: 'FN',
-      last_name: 'LN',
-      id: id
-    }`
+- Index [token required] (GET `/api/users`)
+- Show [token required] (GET `/api/users/:id`)
+- Create (POST `/api/users`) body `{
+  first_name: 'FN',
+  last_name: 'LN',
+  email: '@gmail.com',
+  password: 'pass123'
+}`
+- [ADDED] Delete [token required]: `'users/:id' [DELETE]`
+- [ADDED] Update [token required]: (PUT `/api/users/:id`) body `{
+  first_name: 'FN',
+  last_name: 'LN',
+  id: id
+}`
 
 #### Orders
 
 - Current Order by user (args: user id)[token required]
-- [OPTIONAL] Completed Orders by user (args: user id)[token required]
-- [ADDED] Update order's status [token required]: `'order/<id> [PUT] (token) {
-        status: 'completed',
-        id: orderId
-      }`
-- [ADDED] Delete [token required]: `'order/:id [DELETE] (token)`
+  Index [token required] (GET `/api/order`)
+- Show [token required] (GET `/api/order/:id`)
+- Create [token required] (POST `/api/order`)
+- Update [token required] (PUT `/api/order/:id`) body `{
+    status: 'completed',
+    id: orderId
+  }`
+- Delete [token required] (DELETE `/api/order/:id`)
 
 ## Data Shapes
 
@@ -49,6 +53,7 @@ These are the notes from a meeting with the frontend developer that describe wha
 - category
 
 The SQL schema for this table is as follows:
+
 ```sql
 CREATE TABLE products (
   id SERIAL PRIMARY KEY,
@@ -57,7 +62,6 @@ CREATE TABLE products (
   category VARCHAR(64)
 );
 ```
-
 
 #### User
 
@@ -68,6 +72,7 @@ CREATE TABLE products (
 - password
 
 The SQL schema for this table is as follows:
+
 ```sql
 CREATE TABLE users (
   id BIGSERIAL PRIMARY KEY,
@@ -78,7 +83,6 @@ CREATE TABLE users (
 );
 ```
 
-
 #### Orders
 
 - id
@@ -86,6 +90,7 @@ CREATE TABLE users (
 - status of order (active or complete)
 
 The SQL schema for this table is as follows:
+
 ```sql
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
@@ -99,7 +104,6 @@ CREATE TABLE orders (
 );
 ```
 
-
 #### Table: order_products
 
 - order_id INTEGER REFERENCES orders(id)
@@ -107,6 +111,7 @@ CREATE TABLE orders (
 - quantity INTEGER
 
 The SQL schema for this table is as follows:
+
 ```sql
 CREATE TABLE order_products (
       order_id INT NOT NULL REFERENCES orders(id),
