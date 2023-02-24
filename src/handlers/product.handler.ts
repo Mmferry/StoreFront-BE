@@ -45,8 +45,36 @@ const show = async (req: Request, res: Response) => {
   }
 }
 
+export const update = async (req: Request, res: Response) => {
+  try {
+    const product = await pStore.update(req.body)
+
+    res.json({
+      status: 'success',
+      data: product,
+      message: 'product updated successfully'
+    })
+  } catch (err) {
+    res.status(400).json(err)
+  }
+}
+
+export const deleteHandler = async (req: Request, res: Response) => {
+  try {
+    const product = await pStore.delete(req.params.id as unknown as string)
+
+    res.json({
+      status: 'success',
+      data: product,
+      message: 'product deleted successfully'
+    })
+  } catch (err) {
+    res.status(400).json(err)
+  }
+}
+
 const productRoutes = Router()
 productRoutes.route('/').post(create).get(index)
-productRoutes.route('/:id').get(show)
+productRoutes.route('/:id').get(show).delete(deleteHandler).put(update)
 
 export default productRoutes
