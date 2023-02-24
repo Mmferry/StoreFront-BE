@@ -52,3 +52,22 @@ Add JWT functionality as shown in the course. Make sure that JWTs are required f
 Before submitting, make sure that your project is complete with a `README.md`. Your `README.md` must include instructions for setting up and running your project including how you setup, run, and connect to your database. 
 
 Before submitting your project, spin it up and test each endpoint. If each one responds with data that matches the data shapes from the `REQUIREMENTS.md`, it is ready for submission!
+
+### Environment variables 
+To satisfy Udacity requirements, the following environment variable are needed.
+```
+PORT = 3000
+NODE_ENV = dev
+# Database connection information
+POSTGRES_HOST = localhost
+POSTGRES_PORT = 5433
+POSTGRES_DB = storefront_dev
+POSTGRES_DB_test = storefront_test
+POSTGRES_USER = postgres
+POSTGRES_PASSWORD = ####
+
+BCRYPT_PASSWORD = #######
+SALT_ROUNDS = 10
+TOKEN_SECRET = ######################
+```
+
