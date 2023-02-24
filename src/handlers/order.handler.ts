@@ -119,6 +119,6 @@ const orderRoutes = Router()
 orderRoutes.route('/').post(create).get(index)
 orderRoutes.route('/:id').get(show).delete(deleteHandler).put(update)
 orderRoutes.route('/add-product/:id').post(addProductToOrder)
-orderRoutes.get('/current-orders/:id', dashboardQueries.getUserOrders)
+// orderRoutes.get('/current-orders/:id', dashboardQueries.getUserOrders)
 
 export default orderRoutes

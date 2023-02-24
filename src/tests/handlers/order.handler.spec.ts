@@ -82,10 +82,13 @@ describe('Product APIs: ', () => {
     expect(res.status).toEqual('active')
   })
 
-  it('/api/order/:id update order', async () => {
+  it('/api/order/id update order', async () => {
     const newOrder = await request
-      .put(`/api/order/${orderId}`)
-      .send({ status: 'completed', id: orderId })
+      .put(`/api/order/id=${orderId}`)
+      .send({
+        status: 'completed',
+        id: orderId
+      })
       .set('Authorization', token)
 
     expect(newOrder.body.data.status).toEqual('completed')
