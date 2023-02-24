@@ -13,8 +13,8 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Create [token required]
 - [OPTIONAL] Top 5 most popular products
 - [OPTIONAL] Products by category (args: product category)
-- [ADDED] Delete: `'product/:id  [DELETE]`
-- [ADDED] Update: `'product/:id  [Put] { name: 'product name', price: $$, id: product.id }`
+- [ADDED] Delete: `'product/:id  [DELETE] (token)`
+- [ADDED] Update: `'product/:id  [PUT] { name: 'product name', price: $$, id: product.id } (token)`
 
 
 #### Users
@@ -23,12 +23,20 @@ These are the notes from a meeting with the frontend developer that describe wha
 - Show [token required]
 - Create N[token required]
 - [ADDED] Delete [token required]: `'users/:id' [DELETE] (token)`
+- [ADDED] Update [token required]: `'users/:id' [PUT] (token) {
+      first_name: 'FN',
+      last_name: 'LN',
+      id: id
+    }`
 
 #### Orders
 
 - Current Order by user (args: user id)[token required]
 - [OPTIONAL] Completed Orders by user (args: user id)[token required]
-- [ADDED] Update order's status [token required]: `'order/<id> [PUT] (token)` body `status, id`
+- [ADDED] Update order's status [token required]: `'order/<id> [PUT] (token) {
+        status: 'completed',
+        id: orderId
+      }`
 - [ADDED] Delete [token required]: `'order/:id [DELETE] (token)`
 
 ## Data Shapes
