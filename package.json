@@ -11,14 +11,14 @@
     "start": "npx tsc && node ./dist/server.js",
     "dev": "nodemon ./src/server.ts",
     "watch": "tsc-watch --esModuleInterop src/server.ts --outDir ./dist --onSuccess \"node ./dist/server.js\"",
-    "test": "SET NODE_ENV=test && db-migrate --env test reset && db-migrate --env test up && npx tsc && jasmine && db-migrate --env test down",
     "build": "npx tsc",
     "tsc": "tsc",
     "format": "prettier --write src/**/*.ts",
     "lint:fix": "eslint --fix",
     "lint": "eslint . --ext .ts",
     "migration:run": "db-migrate up",
-    "migrate:test": "db-migrate --env test up && db-migrate up"
+    "migrate:test": "db-migrate --env test up && db-migrate up",
+    "test": "SET NODE_ENV=test && db-migrate --env test reset && db-migrate --env test up && npx tsc && jasmine && db-migrate --env test down"
   },
   "author": "@MmFerry",
   "license": "ISC",

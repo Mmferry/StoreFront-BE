@@ -62,33 +62,34 @@ Before submitting your project, spin it up and test each endpoint. If each one r
 
 ### 1. Install all dependencies
 
-`npm install`
+`yarn install`
 
 ### 2. Build
 
-`npm run build`
+`yarn run build`
 
 ### 3. Start the Server
 
-`npm run dev`
+`yarn run dev`
 
 This command will start the server on port `3000` in development mode
 
-`npm run start`
+`yarn run start`
 
 This command will start the server running on port `3000` in production mode.
 
 ### 4. Linting
 
-`npm run lint`
+`yarn run lint`
 
 ### 5. Formatting
 
-`npm run prettier`
+`yarn run prettier`
 
 ### 6. Testing
 
-`npm run test`
+`yarn run test`
+
 
 This command will build then run test cases
 
