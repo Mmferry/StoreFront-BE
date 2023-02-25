@@ -13,7 +13,7 @@ const create = async (req: Request, res: Response) => {
       message: 'Product added successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -27,7 +27,7 @@ const index = async (_req: Request, res: Response) => {
       message: 'products retrieved successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -41,7 +41,7 @@ const show = async (req: Request, res: Response) => {
       message: 'Product retrieved successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -55,7 +55,7 @@ export const update = async (req: Request, res: Response) => {
       message: 'product updated successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -69,7 +69,7 @@ export const deleteHandler = async (req: Request, res: Response) => {
       message: 'product deleted successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 

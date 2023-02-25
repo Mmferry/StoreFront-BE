@@ -17,7 +17,7 @@ const create = async (req: Request, res: Response, next: NextFunction) => {
       message: 'User created successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -31,7 +31,7 @@ const index = async (req: Request, res: Response, next: NextFunction) => {
       message: 'Users retrieved successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -45,7 +45,7 @@ const show = async (req: Request, res: Response, next: NextFunction) => {
       message: 'User retrieved successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -59,7 +59,7 @@ export const update = async (req: Request, res: Response) => {
       message: 'User updated successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -73,7 +73,7 @@ export const deleteHandler = async (req: Request, res: Response) => {
       message: 'User deleted successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -100,7 +100,7 @@ const authenticate = async (req: Request, res: Response, next: NextFunction) => 
       })
     }
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 

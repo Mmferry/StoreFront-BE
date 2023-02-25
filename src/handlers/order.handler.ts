@@ -17,7 +17,7 @@ const index = async (_req: Request, res: Response) => {
       message: 'orders retrieved successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -31,7 +31,7 @@ const show = async (req: Request, res: Response) => {
       message: 'orders retrieved successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -57,7 +57,7 @@ const create = async (_req: Request, res: Response) => {
       message: 'Your order has been added successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -71,7 +71,7 @@ export const update = async (req: Request, res: Response) => {
       message: 'order updated successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
@@ -85,7 +85,7 @@ export const deleteHandler = async (req: Request, res: Response) => {
       message: 'order deleted successfully'
     })
   } catch (err) {
-    res.status(400).json(err)
+    res.status(500).json(err)
   }
 }
 
