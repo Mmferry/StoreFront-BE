@@ -92,6 +92,34 @@ This command will start the server running on port `3000` in production mode.
 
 This command will build then run test cases
 
+## Set up Database
+
+### Create Databases
+
+We shall create the dev and test database.
+
+- connect to the default postgres database as the server's root user `psql -U postgres`
+- In psql run the following to create a user
+  - `CREATE USER store_user WITH PASSWORD 'password123';`
+- In psql run the following to create the dev and test database
+  - `CREATE DATABASE storefront_dev;`
+  - `CREATE DATABASE storefront_test;`
+- Connect to the databases and grant all privileges
+
+  - Grant for dev database
+    - `\c storefront_dev`
+    - `GRANT ALL PRIVILEGES ON DATABASE storefront_dev TO store_user;`
+  - Grant for test database - `\c storefront_test` - `GRANT ALL PRIVILEGES ON DATABASE storefront_test TO store_user;`
+
+### Migrate Database
+
+Navigate to the root directory and run the command below to migrate the database
+
+Dev Database
+`migration:run`
+Test Database
+`migrate:test`
+
 ### Environment variables
 
 To satisfy Udacity requirements, the following environment variable are needed.
@@ -111,6 +139,10 @@ BCRYPT_PASSWORD = #######
 SALT_ROUNDS = 10
 TOKEN_SECRET = ######################
 ```
+
+### Running Ports
+
+`yarn start`, the server will start on port `3000` and the database on port `5432`
 
 #### Installed packages
 
