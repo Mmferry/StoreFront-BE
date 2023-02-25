@@ -7,14 +7,14 @@ import { User } from '../../interfaces/user.interface'
 const request = supertest(app)
 
 describe('Product APIs: ', () => {
-  const user: User = {
+  let token: string
+  let user: User
+  const baseUser: User = {
     first_name: 'Mohammed',
     last_name: 'Rezk',
     email: 'mfaired@gmail.com',
     password: 'pass123'
   }
-
-  const token = `bearer ${createToken(user)}`
 
   let product: Product = {
     name: 'DAIRY MILK',
@@ -23,9 +23,7 @@ describe('Product APIs: ', () => {
   }
 
   const getAll = async () => {
-    const res = await request.get('/api/product').set('Authorization', token)
-
-    return res
+    return await request.get('/api/product').set('Authorization', token)
   }
 
   const deleteProd = async (id: string): Promise<number> => {
@@ -35,10 +33,23 @@ describe('Product APIs: ', () => {
   }
 
   const createProduct = async (product: Product) => {
-    const res = await request.post('/api/product').send(product).set('Authorization', token)
-
-    return res
+    return await request.post('/api/product').send(product).set('Authorization', token)
   }
+
+  beforeAll(async () => {
+    user = await (await request.post('/api/users').send(baseUser)).body.data
+
+    const res = await request.post('/api/users/authenticate').send({
+      email: baseUser.email,
+      password: baseUser.password
+    })
+
+    token = `bearer ${res.body.data.token}`
+  })
+
+  afterAll(async () => {
+    await request.delete(`/api/users/${user.id}`).set('Authorization', token)
+  })
 
   it('/api/product create product', async () => {
     const res = await createProduct(product)

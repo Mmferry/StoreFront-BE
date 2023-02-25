@@ -1,24 +1,23 @@
 import supertest from 'supertest'
-import { createToken } from './../../auth/authentication'
 import { User } from '../../interfaces/user.interface'
 import app from '../../server'
 
 const request = supertest(app)
 
 describe('User APIs: ', () => {
-  const user: User = {
+  const baseUser: User = {
     first_name: 'Mohammed',
     last_name: 'Rezk',
     email: 'mfaired@gmail.com',
     password: 'pass123'
   }
 
-  const token = `bearer ${createToken(user)}`
+  let user: User
+
+  let token: string
 
   const getAll = async () => {
-    const res = await request.get('/api/users').set('Authorization', token)
-
-    return res
+    return await request.get('/api/users').set('Authorization', token)
   }
 
   const deleteUser = async (id: string): Promise<number> => {
@@ -28,17 +27,18 @@ describe('User APIs: ', () => {
   }
 
   const createUser = async (user: User) => {
-    const res = await request.post('/api/users').send(user)
-
-    return res
+    return await request.post('/api/users').send(user)
   }
 
-  it('/api/users create user', async () => {
-    const res = await createUser(user)
+  beforeAll(async () => {
+    user = await (await createUser(baseUser)).body.data
 
-    expect(res.status).toEqual(200)
+    const res = await request.post('/api/users/authenticate').send({
+      email: baseUser.email,
+      password: baseUser.password
+    })
 
-    await deleteUser(res.body.data.id)
+    token = `bearer ${res.body.data.token}`
   })
 
   it('/api/users get all users', async () => {
@@ -48,40 +48,28 @@ describe('User APIs: ', () => {
   })
 
   it('/api/users/:id show users', async () => {
-    const newUser = await createUser(user)
-
-    const res = (
-      await request.get(`/api/users/${newUser.body.data.id}`).set('Authorization', token)
-    ).body.data
+    const res = (await request.get(`/api/users/${user.id}`).set('Authorization', token)).body.data
 
     expect(res.email).toEqual('mfaired@gmail.com')
-
-    await deleteUser(res.id)
   })
 
   it('/api/users/:id update user', async () => {
-    const uRes = await createUser(user)
-
     const createdUser = {
-      first_name: 'Ibrahim',
-      last_name: 'Mohsen',
-      id: uRes.body.data.id
+      first_name: 'Ahmed',
+      last_name: 'Khaled',
+      id: user.id
     }
 
     const updatedUser = await request
-      .put(`/api/users/${uRes.body.data.id}`)
+      .put(`/api/users/${user.id}`)
       .send(createdUser)
       .set('Authorization', token)
 
-    expect(updatedUser.body.data.first_name).toEqual('Ibrahim')
-
-    await deleteUser(updatedUser.body.data.id)
+    expect(updatedUser.body.data.first_name).toEqual('Ahmed')
   })
 
   it('/api/users/:id delete user by id', async () => {
-    const createdUser = await createUser(user)
-
-    const deletedUser = await deleteUser(createdUser.body.data.id)
+    const deletedUser = await deleteUser(user.id as unknown as string)
 
     expect(deletedUser).toEqual(200)
   })

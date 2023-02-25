@@ -112,6 +112,7 @@ usersRoutes
   .get(validateToken, show)
   .delete(validateToken, deleteHandler)
   .put(validateToken, update)
-usersRoutes.post('/login', authenticate)
+
+usersRoutes.route('/authenticate').post(authenticate)
 
 export default usersRoutes

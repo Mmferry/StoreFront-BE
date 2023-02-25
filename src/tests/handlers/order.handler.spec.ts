@@ -15,7 +15,7 @@ describe('Product APIs: ', () => {
     password: 'pass123'
   }
 
-  const token = `bearer ${createToken(user)}`
+  let token: string
 
   let product: Product = {
     name: 'DAIRY MILK',
@@ -45,6 +45,13 @@ describe('Product APIs: ', () => {
     const initiateUser = await request.post('/api/users').send(user)
 
     user = { ...user, ...initiateUser.body.data }
+
+    const res = await request.post('/api/users/authenticate').send({
+      email: user.email,
+      password: user.password
+    })
+
+    token = `bearer ${res.body.data.token}`
   })
 
   afterAll(async () => {
